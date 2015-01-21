@@ -45,6 +45,8 @@ public class ApplicationController {
     @Inject
     Session session;
 
+    protected String currentUser;
+
     Hand hand;
 
     List<Hand> listHands = new LinkedList<Hand>();
@@ -71,7 +73,6 @@ public class ApplicationController {
 
     public Result getGameHistory(Context context)
     {
-
         SimplePojo jsonEntry = new SimplePojo();
         jsonEntry.content = "Not yet implemented.";
         return Results.json().render(jsonEntry);
@@ -86,7 +87,7 @@ public class ApplicationController {
         if(restore)
         {
             result = Results.html();
-            result.render("name", listHands.get(1).toString() + " #" + pokerService.evaluateDeck(listHands.get(1)));
+            result.render("name", listHands.get(0).toString() + " #" + pokerService.evaluateDeck(listHands.get(0)));
             result.render("deck1", listHands.get(1).toString() + " #" + pokerService.evaluateDeck(listHands.get(1)));
             result.render("deck2", listHands.get(2).toString() + " #" + pokerService.evaluateDeck(listHands.get(2)));
             result.render("deck3", listHands.get(3).toString() + " #" + pokerService.evaluateDeck(listHands.get(3)));
@@ -136,6 +137,14 @@ public class ApplicationController {
                     return result.html();
     }
 
+    public Result getLoggedInPlayerName(Context context)
+    {
+        SimplePojo jsonEntry = new SimplePojo();
+        jsonEntry.content = context.getSession().get("username");
+        System.out.println("Getting logged in player name...");
+        return Results.json().render(jsonEntry);
+    }
+
     public Result logon(Context context)
     {
         Result result = Results.html();
@@ -148,6 +157,7 @@ public class ApplicationController {
 
                 username = context.getParameter("usernameRegister");
                 password = context.getParameter("passwordRegister");
+                currentUser = username;
                 if (username != null && password != null) {
                     session = context.getSession();
 

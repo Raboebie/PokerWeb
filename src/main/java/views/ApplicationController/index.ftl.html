@@ -22,11 +22,11 @@
         <div class = "jumbotron cardDisplay" id = 'deckInfo4'>${deck4}</div>
 
     <div class = "container-fluid backgrounds" id = 'gameSetup' style = 'margin-left: auto;margin-right: auto;width: 70%;'>
-        <label>Player 1: </label></br><select id = "selectPlayer1">
+        <label>Player 1: </label></br><select id = "selectPlayer1" disabled>
             <option value="Enabled">Enabled</option>
             <option value="Disabled">Disabled</option>
         </select></br>
-        <label>Name :</label><input type = "text" name = "player1Name" id = "player1Name" class = "form-control" />
+        <label>Name :</label><input type = "text" name = "player1Name" id = "player1Name" class = "form-control" disabled />
 
 
         <label>Player 2: </label></br><select id = "selectPlayer2">
@@ -53,6 +53,9 @@
         <option value="Disabled">Disabled</option>
     </select></br>
         <label>Name :</label><input type = "text" name = "player2Name" id = "player5Name" class = "form-control" />
+
+        </br>
+        <button class = "form-control" id = "startGame" style = "color:green;" >Start!</button>
     </div>
 
 </@layout.myLayout>

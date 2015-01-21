@@ -8,6 +8,13 @@ $(document).ready( function(){
 
 
 
+        $.get("/getLoggedInPlayerName" , function(data) {
+
+                $("#player1Name").val(data.content);
+
+        });
+
+
   for(var j = 0; j< PLAYERS ; j++)
   {
     var deckInfo = $("#deckInfo"+ j).text();
@@ -137,7 +144,7 @@ function setDeck()
                     map["K♠"] = "KingSpades.jpg";
 }
 
-function getWinner()
+function getWinner() //Update to support ties more reliably
 {
 
 var highest = 0;

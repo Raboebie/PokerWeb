@@ -13,6 +13,8 @@ $("#getGameHistory").click(function() {
 });
 
 
+
+
 var upperCase= new RegExp('[A-Z]');
 var lowerCase= new RegExp('[a-z]');
 var numbers = new RegExp('[0-9]');
