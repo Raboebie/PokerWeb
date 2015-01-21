@@ -72,5 +72,8 @@ var strength = 0;
             //strength += 100;
                 $("#display").text(stringStrength).css('color', color);
         });
+
+
+        //Setup page POST request
 }
 );

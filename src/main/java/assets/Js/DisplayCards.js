@@ -25,15 +25,14 @@ $(document).ready( function(){
     for(var k = 0 ; k < cardList.length ; ++k)
     {
              $("#deckInfo" + j).append("<img class = 'img-rounded' onload = 'resizeImg(this,200,100);' id = 'card"+k+"' src = '/assets/Images/"+map[ cardList[k] ]+ "'/>");
+             $("#deckInfo" +j).css("display" , "none"); //Reveal this line!!!!
     }
 
-    $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red");
+    $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red").css("display" , "none"); //Reveal this line!!!
    }
 
    var winner = getWinner();
    winner++;
-   alert("Player " + winner + " wins") ;
-
 });
 //(9♣,6♣,5♦,8♥,3♠) #High card.
 

@@ -1,7 +1,7 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
 <@layout.myLayout "Home page">    
 
-<div class = "container-fuid backgrounds">
+<div class = "container-fluid backgrounds">
 <h1 id = 'deckType0' align = "center"> </h1> <h2 id = 'player0'> </h2>
     <div class = "jumbotron cardDisplay" id = 'deckInfo0'>${name}</div>
 
@@ -20,5 +20,39 @@
 
     <h1 id = 'deckType4' align = "center"> </h1> <h2 id = 'player4'> </h2>
         <div class = "jumbotron cardDisplay" id = 'deckInfo4'>${deck4}</div>
+
+    <div class = "container-fluid backgrounds" id = 'gameSetup' style = 'margin-left: auto;margin-right: auto;width: 70%;'>
+        <label>Player 1: </label></br><select id = "selectPlayer1">
+            <option value="Enabled">Enabled</option>
+            <option value="Disabled">Disabled</option>
+        </select></br>
+        <label>Name :</label><input type = "text" name = "player1Name" id = "player1Name" class = "form-control" />
+
+
+        <label>Player 2: </label></br><select id = "selectPlayer2">
+        <option value="Enabled">Enabled</option>
+        <option value="Disabled">Disabled</option>
+    </select></br>
+        <label>Name :</label><input type = "text" name = "player2Name" id = "player2Name" class = "form-control" />
+
+
+        <label>Player 3: </label></br><select id = "selectPlayer3">
+        <option value="Enabled">Enabled</option>
+        <option value="Disabled">Disabled</option>
+    </select></br>
+        <label>Name :</label><input type = "text" name = "player3Name" id = "player3Name" class = "form-control" />
+
+        <label>Player 4: </label></br><select id = "selectPlayer4">
+        <option value="Enabled">Enabled</option>
+        <option value="Disabled">Disabled</option>
+    </select></br>
+        <label>Name :</label><input type = "text" name = "player4Name" id = "player4Name" class = "form-control" />
+
+        <label>Player 5: </label></br><select id = "selectPlayer5">
+        <option value="Enabled">Enabled</option>
+        <option value="Disabled">Disabled</option>
+    </select></br>
+        <label>Name :</label><input type = "text" name = "player2Name" id = "player5Name" class = "form-control" />
+    </div>
 
 </@layout.myLayout>
