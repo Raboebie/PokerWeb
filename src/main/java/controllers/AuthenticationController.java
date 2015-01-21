@@ -2,6 +2,7 @@ package controllers;
 
 import Passwords.Passwords;
 import Repository.UserRepository;
+import Users.Game;
 import Users.Players;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -156,8 +158,10 @@ return false;
                         Passwords p = new Passwords();
                         String hashedPassword = p.createHash(PASSWORD);
                         Players users = new Players(USERNAME, hashedPassword);
+                        Game game = new Game("test" , new Timestamp(5));
                         users.setSalt("salt");
                         EntityManager entity = entityManagerProvider.get();
+                        //entity.persist((Game) game);
                         entity.persist((Players) users);
                         return true;
                     } catch (NoSuchAlgorithmException e) {
