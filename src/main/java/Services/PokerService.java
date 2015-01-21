@@ -65,6 +65,8 @@ public class PokerService implements IPokerService {
             return "Straight flush!";
         else if(eval.isOnePairFunctional(hand))
             return "One Pair!";
+        else if(eval.isStraight((hand)))
+            return "Straight";
 
         else
         {

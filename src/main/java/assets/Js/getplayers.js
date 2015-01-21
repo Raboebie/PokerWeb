@@ -1,6 +1,16 @@
-$(document).ready(
-  $.get("/setplayers",function(data,status){
-    var json = JSON.parse(data);
-    alert("Data: " + json + "\nStatus: " + status);
-  });
-);
+$(document).ready(function(){
+        $.getJSON("/setplayers", function(data)
+        {
+
+
+        var players = data.content.split(",");
+
+          for(var k =0 ; k < 5 ; k++)
+          {
+              $("#player" + k).text(players[k]);
+          }
+
+        }
+
+        );
+   });

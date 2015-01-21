@@ -1,5 +1,6 @@
 var map = new Object();
 var rankings = new Object();
+var PLAYERS = 5;
 
 
 $(document).ready( function(){
@@ -7,10 +8,10 @@ $(document).ready( function(){
 
 
 
-  for(var j = 0; j< 5 ; j++)
+  for(var j = 0; j< PLAYERS ; j++)
   {
     var deckInfo = $("#deckInfo"+ j).text();
-
+    $("#deckInfo"+ j).text("");
     rankings["player" +j] = deckInfo;
     var deckSplit = deckInfo.split("#");
     var deck = deckSplit[0].replace("(", "");
@@ -29,9 +30,9 @@ $(document).ready( function(){
     $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red");
    }
 
-   getWinner(rankings)
-
-
+   var winner = getWinner();
+   winner++;
+   alert("Player " + winner + " wins") ;
 
 });
 //(9♣,6♣,5♦,8♥,3♠) #High card.
@@ -137,18 +138,61 @@ function setDeck()
                     map["K♠"] = "KingSpades.jpg";
 }
 
-function getWinner(ranks)
+function getWinner()
 {
 
-        for(var k = 0 ; k < ranks.length ; k++)
-        {
-                var deckInfo = ranks["player" + k];
+var highest = 0;
+var playerHighest = 0;
 
-                var deckSplit = deckInfo.split("#");
-                var deck = deckSplit[0].replace("(", "");
-                var deck = deck.replace(")", "");
-                var deckType = deckSplit[1];
-        }
+            for(var k = 0 ; k < PLAYERS ;k++)
+            {
+                var deckInfo = rankings["player"+k].split("#");
+                var deckType = deckInfo[1];
+                var rankOfCard = getRank(deckType);
 
-
+                if(rankOfCard > highest)
+                {
+                    highest = rankOfCard;
+                    playerHighest = k;
+                }
+            }
+            return playerHighest;
 }
+
+
+function getRank(r)
+{
+    switch(r){
+        case "High card." : return 0;
+        case "One Pair!" : return 1;
+        case "Two Pair": return 2;
+        case "Three of a Kind" : return 3;
+        case "Four of a kind!" : return 4;
+        case "Straight": return 5;
+        case "Flush!" : return 6;
+        case "Straight flush!": return 7;
+        case "Full house!" : return 8;
+
+    }
+}
+
+
+/*        if(eval.isFourOfAKindFunctional(hand))
+              return "Four of a kind!";
+          else if(eval.isFlushFunctional(hand))
+              return "Flush!";
+          else if(eval.isFullHouseFunctional(hand))
+              return "Full house!";
+          else if(eval.isThreeOfAKindFunctional(hand))
+              return "Three of a kind";
+          else if(eval.isTwoPairFunctional(hand))
+              return "Two Pair";
+          else if(eval.isStraightFlush(hand))
+              return "Straight flush!";
+          else if(eval.isOnePairFunctional(hand))
+              return "One Pair!";
+
+          else
+          {
+              return "High card.";
+          }*/

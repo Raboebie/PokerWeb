@@ -1,9 +1,15 @@
 $(document).ready( function(){
 
-$("html").hover(function(){
+$("html").hover(function(){ //Mouse Hover opacity
     $("html").stop().animate({"opacity": 1 });
 }, function() {
     $("html").stop().animate({"opacity": 0.8});
+});
+
+
+//Get Game history ajax
+$("#getGameHistory").click(function() {
+        $.get("/getGameHistory" , function(data) {alert(data.content)});
 });
 
 

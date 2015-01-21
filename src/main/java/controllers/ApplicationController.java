@@ -62,9 +62,19 @@ public class ApplicationController {
     public Result setplayers(Context context) {
 
         SimplePojo simplePojo = new SimplePojo();
-        simplePojo.content = "Dihan,Hardu,Chris,Arno,Andre";
+        simplePojo.content = "Dihan,Hardu,Chris,Arno,Andre";   //Get List of players from database or from ajax
+        System.out.println("Setting players");
         return Results.json().render(simplePojo);
 
+    }
+
+
+    public Result getGameHistory(Context context)
+    {
+
+        SimplePojo jsonEntry = new SimplePojo();
+        jsonEntry.content = "Not yet implemented.";
+        return Results.json().render(jsonEntry);
     }
 
 
@@ -76,7 +86,11 @@ public class ApplicationController {
         if(restore)
         {
             result = Results.html();
-            result.render("name", hand.toString() + " #" + pokerService.evaluateDeck(hand) );  //RESTORE FROM LIST RATHER THAN SINGLE HAND
+            result.render("name", listHands.get(1).toString() + " #" + pokerService.evaluateDeck(listHands.get(1)));
+            result.render("deck1", listHands.get(1).toString() + " #" + pokerService.evaluateDeck(listHands.get(1)));
+            result.render("deck2", listHands.get(2).toString() + " #" + pokerService.evaluateDeck(listHands.get(2)));
+            result.render("deck3", listHands.get(3).toString() + " #" + pokerService.evaluateDeck(listHands.get(3)));
+            result.render("deck4", listHands.get(4).toString() + " #" + pokerService.evaluateDeck(listHands.get(4))); //RESTORE FROM LIST RATHER THAN SINGLE HAND
             restore = false;
             return result.html();
         }
@@ -91,7 +105,7 @@ public class ApplicationController {
             session.put("password", password);
 
             if (auth.loginHash(username,password)) {
-                System.out.println("loginHash resturned success");
+                System.out.println("loginHash returned success");
                 loginError = false;         loggedIn = true;
                 pokerService.createDeck();
               //   hand = pokerService.dealHand(); //SET MULTIPLE HANDS HERE
@@ -110,6 +124,7 @@ public class ApplicationController {
                 return result;
             }
         }
+
         if(loginError) {
             loginError = false;
             loggedIn = false;
@@ -185,6 +200,7 @@ public class ApplicationController {
         return Results.json().render(simplePojo);
 
     }
+
     public  Result logout(Context context)
     {
         context.getSession().clear();
