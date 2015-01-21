@@ -1,0 +1,23 @@
+<#import "../layout/defaultLayoutRegister.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+    <body>
+    <div class = "container-fluid center-block backgrounds">
+    <form method = "POST" action = "/logon" name = "register">
+        <div class = "credentials" name = "mainLogondiv">
+            <font >Username: </font> <input class = "form-control" width="48" height="48" class = "credentials" type = "text" name = "usernameRegister"/> </br>
+            <font >Password: </font> <input class = "form-control" width="48" height="48"  type = "password" name = "passwordRegister" id  = "checkPass"/><font id = "display"></font></br>
+            <input class = "form-control" width="48" height="48"  type = "submit" name = "submit" value = "Login"/></br>
+
+            <div class = "container-fluid">
+                    <#noescape>${RegistrationStatus}</#noescape>
+                </div>
+        </div>
+    </form>
+        </div>
+    </body>
+
+</@layout.myLayout>
+
+
+
+

@@ -1,0 +1,27 @@
+<#import "../layout/defaultLayoutLogin.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+
+    <h1>Poker Web App</h1>
+
+    <body>
+    <div class = "container-fluid backgrounds">
+    <form method = "POST" action = "/index" name = "logon">
+        <div class = "credentials" name = "mainLogondiv">
+
+            <font >Username: </font> <input class = "form-control" class = "credentials" type = "text" name = "username"/> </br>
+            <font >Password: </font> <input class = "form-control"  type = "credentials" name = "password"/></br>
+            <input class = "form-control"   type = "submit" name = "submit" value = "Login"/></br>
+            <a class = "form-control" href = "/register">Click here to register.</a>
+            <#noescape>${restoreButton}</#noescape>
+        </div>
+    </form>
+        </div>
+    </body>
+
+</@layout.myLayout>
+
+
+
+
+

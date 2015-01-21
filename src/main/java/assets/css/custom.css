@@ -1,0 +1,15 @@
+/* Add additional stylesheets below
+-------------------------------------------------- */
+
+html {
+    background : url("/assets/Images/background.jpg") no-repeat center center fixed;
+    background-size : cover;
+    opacity: 0.9;
+
+}
+
+.cardDisplay
+{
+        margin-left: auto;
+        margin-right: auto;
+}
