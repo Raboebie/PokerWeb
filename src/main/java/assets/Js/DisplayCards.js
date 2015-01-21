@@ -1,4 +1,6 @@
 var map = new Object();
+var rankings = new Object();
+
 
 $(document).ready( function(){
         setDeck();
@@ -8,9 +10,8 @@ $(document).ready( function(){
   for(var j = 0; j< 5 ; j++)
   {
     var deckInfo = $("#deckInfo"+ j).text();
-    $("#deckInfo"+j).text("");
 
-
+    rankings["player" +j] = deckInfo;
     var deckSplit = deckInfo.split("#");
     var deck = deckSplit[0].replace("(", "");
     var deck = deck.replace(")", "");
@@ -25,8 +26,10 @@ $(document).ready( function(){
              $("#deckInfo" + j).append("<img class = 'img-rounded' onload = 'resizeImg(this,200,100);' id = 'card"+k+"' src = '/assets/Images/"+map[ cardList[k] ]+ "'/>");
     }
 
-    $("#deckType"+j).append("<br/><label class = 'label label-success'>"+deckType+"</label>");
+    $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red");
    }
+
+   getWinner(rankings)
 
 
 
@@ -132,4 +135,20 @@ function setDeck()
                     map["K♦"] = "KingDiamonds.jpg";
                     map["K♥"] = "KingHearts.jpg";
                     map["K♠"] = "KingSpades.jpg";
+}
+
+function getWinner(ranks)
+{
+
+        for(var k = 0 ; k < ranks.length ; k++)
+        {
+                var deckInfo = ranks["player" + k];
+
+                var deckSplit = deckInfo.split("#");
+                var deck = deckSplit[0].replace("(", "");
+                var deck = deck.replace(")", "");
+                var deckType = deckSplit[1];
+        }
+
+
 }
