@@ -220,6 +220,12 @@ public class ApplicationController {
             return Results.redirect("/");
         }
     }
+
+    public Result gameSetup(Context context)
+    {
+        Result result = Results.html();
+        return result;
+    }
     
     public static class SimplePojo {
 
