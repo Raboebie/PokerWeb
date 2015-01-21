@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  * Created by dihan on 15/01/20.
  */
 @Entity
-public class Users {
+public class Players {
 
     @Id
     @Size(max =12)
@@ -22,7 +22,12 @@ public class Users {
 
     //getters and setters
 
-    public Users(String username, String UserPassword)
+    public Players()
+    {
+
+    }
+
+    public Players(String username, String UserPassword)
     {
         name = username;
         password = UserPassword;

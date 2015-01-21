@@ -2,7 +2,7 @@ package controllers;
 
 import Passwords.Passwords;
 import Repository.UserRepository;
-import Users.Users;
+import Users.Players;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -108,31 +108,66 @@ return false;
 
 
     @UnitOfWork
-    public boolean loginDatabase(String USERNAME) {
+    public boolean loginDatabase(String USERNAME, String PASSWORD) {
+
+        Passwords p = new Passwords();
 
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT x FROM GuestbookEntry x.name WHERE x.name = :USERNAME");
+        Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :USERNAME");
         q.setParameter("USERNAME" , USERNAME);
-        List<Users> list = (List<Users>) q.getResultList();
+        List<Players> list = (List<Players>) q.getResultList();
 
+        if(list.isEmpty())
+            return false;
+        else {
+            String password = list.get(0).getPassword();
 
+            try {
+                try {
+                    if (p.validatePassword(PASSWORD, password))
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                } catch (NoSuchAlgorithmException e) {
+                }
+            }
+            catch(InvalidKeySpecException e){}
+        }
 
 
         return false;
     }
 
 @Transactional
-    public boolean registerDatabase(String param1, String param2)
-    {
-        Users users = new Users(param1,param2);
-        users.setSalt("salt");
-        EntityManager entity = entityManagerProvider.get();
-        entity.persist((Users)users);
-        return true;
+    public boolean registerDatabase(String USERNAME, String PASSWORD) {
+    EntityManager entityManager = entityManagerProvider.get();
+
+    Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :USERNAME");
+    q.setParameter("USERNAME", USERNAME);
+    List<Players> list = (List<Players>) q.getResultList();
+
+
+            if (list.isEmpty()) {
+                try {
+                    try {
+                        Passwords p = new Passwords();
+                        String hashedPassword = p.createHash(PASSWORD);
+                        Players users = new Players(USERNAME, hashedPassword);
+                        users.setSalt("salt");
+                        EntityManager entity = entityManagerProvider.get();
+                        entity.persist((Players) users);
+                        return true;
+                    } catch (NoSuchAlgorithmException e) {
+                    }
+                } catch (InvalidKeySpecException e) {
+                }
+                return false;
+            }
+
+
+    return false;
     }
-
-
-
-
 }

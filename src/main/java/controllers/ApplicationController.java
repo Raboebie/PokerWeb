@@ -18,7 +18,7 @@ package controllers;
 
 
 import Services.PokerService;
-import Users.Users;
+import Users.Players;
 import com.google.inject.Inject;
 import ninja.Result;
 import ninja.Results;
@@ -48,7 +48,7 @@ public class ApplicationController {
     Hand hand;
 
     List<Hand> listHands = new LinkedList<Hand>();
-    List<Users> currentPlayers =  new LinkedList<>();
+    List<Players> currentPlayers =  new LinkedList<>();
 
     int count = 0;
     boolean regError = false;
@@ -104,7 +104,7 @@ public class ApplicationController {
             session.put("username", username);
             session.put("password", password);
 
-            if (auth.loginHash(username,password)) {
+               if(auth.loginDatabase(username,password))       {                 //if (auth.loginHash(username,password) ) {
                 System.out.println("loginHash returned success");
                 loginError = false;         loggedIn = true;
                 pokerService.createDeck();
@@ -151,7 +151,7 @@ public class ApplicationController {
                 if (username != null && password != null) {
                     session = context.getSession();
 
-                    if (auth.registerHash(username,password) ) { //&& auth.registerDatabase(username,password)
+                    if (auth.registerDatabase(username, password)) { //&& auth.registerDatabase(username,password)
 
                         regError = false;
                     } else {
