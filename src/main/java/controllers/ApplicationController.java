@@ -221,11 +221,6 @@ public class ApplicationController {
         }
     }
 
-    public Result gameSetup(Context context)
-    {
-        Result result = Results.html();
-        return result;
-    }
     
     public static class SimplePojo {
 
