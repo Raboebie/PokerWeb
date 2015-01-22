@@ -27,6 +27,8 @@ public class AuthenticationController  {
 
     List<String> username = new LinkedList<String>();
     List<String> password = new LinkedList<String>();
+
+
     @Inject
     UserRepository userRepository;
 
@@ -158,7 +160,6 @@ return false;
                         Passwords p = new Passwords();
                         String hashedPassword = p.createHash(PASSWORD);
                         Players users = new Players(USERNAME, hashedPassword);
-                        Game game = new Game("test" , new Timestamp(5));
                         users.setHand("Testing hand");
                         EntityManager entity = entityManagerProvider.get();
                         //entity.persist((Game) game);
@@ -173,5 +174,38 @@ return false;
 
 
     return false;
+    }
+
+    @Transactional
+    public boolean createGame(String GameName, Timestamp timestamp , String UserName)
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+        Game game = new Game(GameName, timestamp , UserName);
+        entityManager.persist((Game) game);
+
+        return true;
+    }
+
+
+@UnitOfWork
+    public boolean checkGame(String name , Timestamp timestamp)
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+
+        Query q = entityManager.createQuery("SELECT u FROM Game u WHERE u.GameName = :GAMENAME");
+        q.setParameter("GAMENAME" , name);
+        List<Game> list = (List<Game>) q.getResultList();
+
+        if(list.isEmpty())
+        {
+            /*Game game = new Game(name , timestamp,name);
+            entityManager.persist(game);*/
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
     }
 }

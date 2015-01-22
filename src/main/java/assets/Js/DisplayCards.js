@@ -2,6 +2,7 @@ var map = new Object();
 var rankings = new Object();
 var inputPlayers = new Object();
 var PLAYERS = 5;
+var HANDS = new Array();
 
 
 
@@ -12,7 +13,6 @@ $(document).ready( function(){
         $("#gameName").change(
           function(){
           var gameName = $("#gameName").val();
-          alert(gameName);
                 $.ajax(
                    {
                       type: "POST",
@@ -20,11 +20,16 @@ $(document).ready( function(){
                       data: {"page": gameName},
                       dataType: "json",
                       success: function(response) {
-                        alert(response.content);
                       if(response.content == "TRUE")
+                      {
                         $("#gameName").css("color" , "green");
+                        $("#isGameAvailable").text("Name is available").css("color" , "green")
+                        }
                         else
+                        {
                         $("#gameName").css("color" , "red");
+                        $("#isGameAvailable").text("Name is not available").css("color" , "red")
+                        }
                        },
                       error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
                    }
@@ -35,13 +40,14 @@ $(document).ready( function(){
 
 
 
+
         $.get("/getLoggedInPlayerName" , function(data) {
                 $("#player1Name").val(data.content);
                 inputPlayers[0] = data.content;
         });
 
 
-  for(var j = 0; j< 5 ; j++)
+  for(var j = 0; j < 5 ; j++)
   {
     $("#player" + j).text(inputPlayers[j]);
     var deckInfo = $("#deckInfo"+ j).text();
@@ -49,7 +55,9 @@ $(document).ready( function(){
     rankings["player" +j] = deckInfo;
     var deckSplit = deckInfo.split("#");
     var deck = deckSplit[0].replace("(", "");
+
     var deck = deck.replace(")", "");
+    HANDS.push(deck);
 
     var deckType = deckSplit[1];
 
@@ -74,7 +82,7 @@ $(document).ready( function(){
 
            $("#startGame").on("click",function(){
 
-
+                   var gameName = $("#gameName").val();
 
 
                    inputPlayers[1] = $("#player2Name").val();
@@ -93,6 +101,31 @@ $(document).ready( function(){
                          $("#player" + x).attr('style', 'inline');
                          $("#deckType" + x).attr('style', 'inline');
                     }
+
+                                            $.ajax(
+                                               {
+                                                  type: "POST",
+                                                  url: "/createGame",
+                                                  data: {"gameName": gameName , "Players" : JSON.stringify(inputPlayers) , "hands" : JSON.stringify(HANDS)},
+                                                  dataType: "json",
+                                                  success: function(response) {
+                                                  alert(response.content);
+                                                  if(response.content == "TRUE")
+                                                  {
+                                                    $("#gameName").css("color" , "green");
+                                                    $("#isGameAvailable").text("Name is available").css("color" , "green")
+                                                    }
+                                                    else
+                                                    {
+                                                    $("#gameName").css("color" , "red");
+                                                    $("#isGameAvailable").text("Name is not available").css("color" , "red")
+                                                    }
+                                                   },
+                                                  error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
+                                               }
+
+                                            );
+
 
 
             });

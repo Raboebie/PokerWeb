@@ -19,9 +19,13 @@ package conf;
 import Services.AuthenticationService;
 import Services.IPokerService;
 import Services.PokerService;
+import Users.Game;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import controllers.AuthenticationController;
+
+import javax.persistence.EntityManager;
+import java.security.Provider;
 
 @Singleton
 public class Module extends AbstractModule {
@@ -31,6 +35,7 @@ public class Module extends AbstractModule {
         // bind your injections here!
         bind(IPokerService.class).to(PokerService.class);
         bind(AuthenticationController.class);
+        bind(Game.class);
     }
 
 }

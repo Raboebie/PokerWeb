@@ -73,13 +73,25 @@ public class ApplicationController {
 
     }
 
+    public Result createGame(Context context)
+    {
+        SimplePojo simplePojo = new SimplePojo();
+        simplePojo.content = "sadads";   //Get List of players from database or from ajax
+        System.out.println(context.getParameter("gameName") + " " + context.getParameter("Players") + " " + context.getParameter("hands"));
+        return Results.json().render(simplePojo);
+    }
 
     public Result setGameName(Context context)
     {
         String gameName = context.getParameter("page");
-        Game game = new Game(gameName,new Timestamp(8));
+        System.out.println(new Timestamp(8));
+        Game game = new Game(gameName,new Timestamp(8), gameName);
+        boolean test = auth.checkGame(gameName, new Timestamp(8));
         SimplePojo jsonEntry = new SimplePojo();
+        if(test)
         jsonEntry.content = "TRUE";
+        else
+        jsonEntry.content = "FALSE";
         return Results.json().render(jsonEntry);
     }
 
