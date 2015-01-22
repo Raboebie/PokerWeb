@@ -1,5 +1,6 @@
 var map = new Object();
 var rankings = new Object();
+var inputPlayers = new Object();
 var PLAYERS = 5;
 
 
@@ -8,15 +9,17 @@ $(document).ready( function(){
 
 
 
+
         $.get("/getLoggedInPlayerName" , function(data) {
-
                 $("#player1Name").val(data.content);
-
+                inputPlayers[0] = data.content;
         });
 
 
   for(var j = 0; j< PLAYERS ; j++)
   {
+
+    $("#player" + j).text(inputPlayers[j]);
     var deckInfo = $("#deckInfo"+ j).text();
     $("#deckInfo"+ j).text("");
     rankings["player" +j] = deckInfo;
@@ -29,17 +32,50 @@ $(document).ready( function(){
     var cardList = deck.split(",");
     cardList[cardList.length-1] = cardList[cardList.length-1].replace(" " ,"");
 
+     $("#player"+j).text(rankings["player"+j]);
+
+
     for(var k = 0 ; k < cardList.length ; ++k)
     {
+
              $("#deckInfo" + j).append("<img class = 'img-rounded' onload = 'resizeImg(this,200,100);' id = 'card"+k+"' src = '/assets/Images/"+map[ cardList[k] ]+ "'/>");
              $("#deckInfo" +j).css("display" , "none"); //Reveal this line!!!!
     }
 
-    $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red").css("display" , "none"); //Reveal this line!!!
+    $("#deckType"+j).append("<br/><label class = 'alert alert-danger'>"+deckType+"</label>").css("color" , "red").css("display","none"); //Reveal this line!!!
    }
 
    var winner = getWinner();
    winner++;
+
+           $("#startGame").on("click",function(){
+                   inputPlayers[1] = $("#player2Name").val();
+                   inputPlayers[2] = $("#player3Name").val();
+                   inputPlayers[3] = $("#player4Name").val();
+                   inputPlayers[4] = $("#player5Name").val();
+                    $("#deckInfo" +0).attr('style', '');
+                     $("#deckInfo" +1).attr('style', '');
+                      $("#deckInfo" +2).attr('style', '');
+                       $("#deckInfo" +3).attr('style', '');
+                        $("#deckInfo" +4).attr('style', '');
+                         $("#gameSetup").css("display" , "none");
+
+
+                           $("#player" + 0).attr('style', 'inline');
+                           $("#player" + 1).attr('style', 'inline');
+                           $("#player" + 2).attr('style', 'inline');
+                           $("#player" + 3).attr('style', 'inline');
+                           $("#player" + 4).attr('style', 'inline');
+
+                            $("#deckType" + 0).attr('style', 'inline');
+                            $("#deckType" + 1).attr('style', 'inline');
+                             $("#deckType" + 2).attr('style', 'inline');
+                            $("#deckType" + 3).attr('style', 'inline');
+                              $("#deckType" + 4).attr('style', 'inline');
+
+            });
+
+
 });
 //(9♣,6♣,5♦,8♥,3♠) #High card.
 
