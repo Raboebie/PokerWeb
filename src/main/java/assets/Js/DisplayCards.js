@@ -9,6 +9,30 @@ $(document).ready( function(){
         setDeck();
 
 
+        $("#gameName").change(
+          function(){
+          var gameName = $("#gameName").val();
+          alert(gameName);
+                $.ajax(
+                   {
+                      type: "POST",
+                      url: "/setGameName",
+                      data: {"page": gameName},
+                      dataType: "json",
+                      success: function(response) {
+                        alert(response.content);
+                      if(response.content == "TRUE")
+                        $("#gameName").css("color" , "green");
+                        else
+                        $("#gameName").css("color" , "red");
+                       },
+                      error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
+                   }
+
+                );
+          }
+        );
+
 
 
         $.get("/getLoggedInPlayerName" , function(data) {

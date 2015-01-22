@@ -17,7 +17,7 @@ public class Players {
     private String name;
 
     private String password;
-    private String salt;
+    private String hand;
 
 
     //getters and setters
@@ -45,7 +45,7 @@ public class Players {
 
     public String getSalt()
     {
-        return salt;
+        return hand;
     }
 
     public void setName(String a){
@@ -57,9 +57,9 @@ public class Players {
         password = p;
     }
 
-    public void setSalt(String s)
+    public void setHand(String s)
     {
-        salt = s;
+        hand = s;
     }
 
     public String toString()

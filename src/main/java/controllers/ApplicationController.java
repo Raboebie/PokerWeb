@@ -18,6 +18,7 @@ package controllers;
 
 
 import Services.PokerService;
+import Users.Game;
 import Users.Players;
 import com.google.inject.Inject;
 import ninja.Result;
@@ -29,8 +30,10 @@ import Cards.Hand;
 import ninja.Context;
 import ninja.session.Session;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Singleton
@@ -70,6 +73,15 @@ public class ApplicationController {
 
     }
 
+
+    public Result setGameName(Context context)
+    {
+        String gameName = context.getParameter("page");
+        Game game = new Game(gameName,new Timestamp(8));
+        SimplePojo jsonEntry = new SimplePojo();
+        jsonEntry.content = "TRUE";
+        return Results.json().render(jsonEntry);
+    }
 
     public Result getGameHistory(Context context)
     {

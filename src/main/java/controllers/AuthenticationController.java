@@ -159,7 +159,7 @@ return false;
                         String hashedPassword = p.createHash(PASSWORD);
                         Players users = new Players(USERNAME, hashedPassword);
                         Game game = new Game("test" , new Timestamp(5));
-                        users.setSalt("salt");
+                        users.setHand("Testing hand");
                         EntityManager entity = entityManagerProvider.get();
                         //entity.persist((Game) game);
                         entity.persist((Players) users);
