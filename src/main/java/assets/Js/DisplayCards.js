@@ -2,7 +2,7 @@ var map = new Object();
 var rankings = new Object();
 var inputPlayers = new Object();
 var PLAYERS = 5;
-var HANDS = new Array();
+ HANDS = new Object();
 
 
 
@@ -57,7 +57,7 @@ $(document).ready( function(){
     var deck = deckSplit[0].replace("(", "");
 
     var deck = deck.replace(")", "");
-    HANDS.push(deck);
+    HANDS[j] = (deck);
 
     var deckType = deckSplit[1];
 

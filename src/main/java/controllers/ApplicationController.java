@@ -21,6 +21,8 @@ import Services.PokerService;
 import Users.Game;
 import Users.Players;
 import com.google.inject.Inject;
+import jdk.nashorn.internal.parser.JSONParser;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 import ninja.Result;
 import ninja.Results;
 
@@ -29,6 +31,9 @@ import com.google.inject.Singleton;
 import Cards.Hand;
 import ninja.Context;
 import ninja.session.Session;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.sql.Timestamp;
 import java.util.LinkedList;
@@ -50,6 +55,7 @@ public class ApplicationController {
 
     protected String currentUser;
 
+
     Hand hand;
 
     List<Hand> listHands = new LinkedList<Hand>();
@@ -61,6 +67,8 @@ public class ApplicationController {
     boolean loggedIn = false;
     boolean logout = false;
     boolean restore = false;
+
+    static int PLAYERS;
 
 
     //THIS IS A TEMPORARY FUNCTION
@@ -78,6 +86,38 @@ public class ApplicationController {
         SimplePojo simplePojo = new SimplePojo();
         simplePojo.content = "sadads";   //Get List of players from database or from ajax
         System.out.println(context.getParameter("gameName") + " " + context.getParameter("Players") + " " + context.getParameter("hands"));
+        String gameName = context.getParameter("gameName");
+        String players = context.getParameter("Players");
+        String hands = context.getParameter("hands");
+        JSONObject jsonObject = null;
+        org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
+        try {
+             jsonObject = (JSONObject) jsonParser.parse(players);
+        }catch(ParseException e){}
+
+        String[] playerNames = new String[5];
+
+        for(Integer k= 0 ;k < 5 ; k++)
+        {
+            playerNames[k] =  (String) jsonObject.get(k.toString());
+        }
+
+        try {
+            jsonObject = (JSONObject) jsonParser.parse(hands);
+        }catch(ParseException e){}
+
+        String[] playerHands = new String[5];
+
+        for(Integer k= 0 ; k < 5; k++) {
+            playerHands[k] =  (String) jsonObject.get(k.toString());
+        }
+
+
+        
+
+
+
+
         return Results.json().render(simplePojo);
     }
 
@@ -98,6 +138,7 @@ public class ApplicationController {
     public Result getGameHistory(Context context)
     {
         SimplePojo jsonEntry = new SimplePojo();
+
         jsonEntry.content = "Not yet implemented.";
         return Results.json().render(jsonEntry);
     }
