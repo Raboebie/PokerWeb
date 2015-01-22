@@ -19,6 +19,7 @@ package controllers;
 
 import Services.PokerService;
 import Users.Game;
+import Users.PlayerGames;
 import Users.Players;
 import com.google.inject.Inject;
 import jdk.nashorn.internal.parser.JSONParser;
@@ -35,7 +36,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -112,20 +115,56 @@ public class ApplicationController {
             playerHands[k] =  (String) jsonObject.get(k.toString());
         }
 
+        Game game = new Game();
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date now = calendar.getTime();
+        Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
 
 
 
+        game.setGameDate(currentTimestamp);
+        game.setGameName(gameName);
 
+        if(auth.createGame(game))
+        {
+                System.out.println("Made a game@!!");//For each user in the game add the gameName, playerName and hand to PlayerGames
 
+                for(int k = 0 ; k < playerNames.length ; k++)
+                {
+                    PlayerGames playerGames = new PlayerGames();
+                    playerGames.setUsername(playerNames[k]);
+                    playerGames.setGameName(gameName);
+                    playerGames.setHand(playerHands[k]);
+                    Players player = auth.getPlayer(playerNames[k]);
+                    player.addHand(playerHands[k]);
+                    player.addGame(game);
+                    playerGames.setUsername(player.getName());
+                    playerGames.setHand(player.getHand());
+                    game.addPlayer(player);
+                    playerGames.setGame(game);
 
-        return Results.json().render(simplePojo);
+                    if(auth.createPlayerGames(playerGames))
+                    {
+                        System.out.println("Great victory!!");
+                    }
+                    else
+                        System.out.println("Lekker failure");
+
+                }
+        }
+        else
+            System.out.println("Failed to create game.");
+
+        SimplePojo json = new SimplePojo();
+        json.content = "TRUE";
+        return Results.json().render(json);
     }
 
     public Result setGameName(Context context)
     {
         String gameName = context.getParameter("page");
         System.out.println(new Timestamp(8));
-        Game game = new Game(gameName,new Timestamp(8), gameName);
+        Game game = new Game(gameName,new Timestamp(8));
         boolean test = auth.checkGame(gameName, new Timestamp(8));
         SimplePojo jsonEntry = new SimplePojo();
         if(test)

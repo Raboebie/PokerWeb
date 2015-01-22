@@ -2,13 +2,11 @@ package Users;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,36 +16,42 @@ import java.util.List;
 public class Game {
 
     @Id
-    @Size (max = 12)
+    @Size (max = 20)
     private String GameName;
+
+    @OneToMany(mappedBy = "game")
+    private List<PlayerGames> players = new ArrayList<>();
 
     private Timestamp GameDate;
 
-    private String name;
 
     /*Timestamp stamp = new Timestamp(System.currentTimeMillis());
     Date date = new Date(stamp.getTime());
     System.out.println(date); */
+
+    public void addPlayer(Players player)
+    {
+        PlayerGames playerGames = new PlayerGames();
+        playerGames.setGameName(this.getGameName());
+        playerGames.setUsername(player.getName());
+        playerGames.setHand(player.getHand());
+        playerGames.setGame(this);
+        playerGames.setPlayer(player);
+        this.players.add(playerGames);
+    }
 
     public Game()
     {
 
     }
 
-    public void setName(String pname)
-    {
-            name = pname;
-    }
 
-    public String getName(){
-        return name;
-    }
 
-    public Game(String gameName, Timestamp gameDate , String pname)
+
+    public Game(String gameName, Timestamp gameDate)
     {
         GameName = gameName;
         GameDate = gameDate;
-        name = pname;
     }
 
     public String  getGameName()

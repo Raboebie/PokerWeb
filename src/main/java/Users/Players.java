@@ -1,9 +1,10 @@
 package Users;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,13 +19,24 @@ public class Players {
 
     private String password;
     private String hand;
-
+    @OneToMany( mappedBy = "player",fetch= FetchType.EAGER)
+    private List<PlayerGames> games = new ArrayList<>();
 
     //getters and setters
 
     public Players()
     {
 
+    }
+
+    public void addGame(Game game)
+    {
+        PlayerGames playerGames = new PlayerGames();
+        playerGames.setUsername(getName());
+        playerGames.setGameName(game.getGameName());
+        playerGames.setPlayer(this);
+        playerGames.setGame(game);
+        this.games.add(playerGames);
     }
 
     public Players(String username, String UserPassword)
@@ -62,12 +74,20 @@ public class Players {
         hand = s;
     }
 
+    public String getHand()
+    {
+        return this.hand;
+    }
+
     public String toString()
     {
         return name + " " + password;
     }
 
-
+    public void addHand(String string)
+    {
+        hand = string;
+    }
 
 
 

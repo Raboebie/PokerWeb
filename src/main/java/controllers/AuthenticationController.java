@@ -3,6 +3,7 @@ package controllers;
 import Passwords.Passwords;
 import Repository.UserRepository;
 import Users.Game;
+import Users.PlayerGames;
 import Users.Players;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -176,14 +177,40 @@ return false;
     return false;
     }
 
+
     @Transactional
-    public boolean createGame(String GameName, Timestamp timestamp , String UserName)
+    public boolean createPlayerGames(PlayerGames playerGames)
     {
         EntityManager entityManager = entityManagerProvider.get();
-        Game game = new Game(GameName, timestamp , UserName);
-        entityManager.persist((Game) game);
-
+        entityManager.persist((PlayerGames) playerGames);
         return true;
+    }
+
+    @Transactional
+    public boolean createGame(Game game)
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+        entityManager.persist((Game) game);
+        return true;
+    }
+
+    @UnitOfWork
+    public Players getPlayer(String pname)
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+
+        Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :NAME");
+        q.setParameter("NAME" , pname);
+        List<Players> list = (List<Players>) q.getResultList();
+        if(list.size() > 1)
+        {
+            return null;
+        }
+        else
+        {
+            return list.get(0);
+        }
+
     }
 
 

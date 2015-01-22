@@ -8,12 +8,11 @@ PRIMARY KEY (name)
 create table Game(
 GameName varchar(20) not null,
 GameDate TIMESTAMP(8) not null,
-name varchar(12) not null,
 PRIMARY KEY (GameDate)
 );
 
-create table UserGame(
-    name varchar(12) not null,
+create table PlayerGames(
+    name varchar(100) not null,
     GameName varchar(100) not null,
     hand varchar(100) not null,
     constraint username_fk foreign key (name) references Players(name),
