@@ -85,7 +85,7 @@ public class ApplicationController {
     {
         SimplePojo simplePojo = new SimplePojo();
         simplePojo.content = "sadads";   //Get List of players from database or from ajax
-        System.out.println(context.getParameter("gameName") + " " + context.getParameter("Players") + " " + context.getParameter("hands"));
+
         String gameName = context.getParameter("gameName");
         String players = context.getParameter("Players");
         String hands = context.getParameter("hands");
@@ -113,7 +113,7 @@ public class ApplicationController {
         }
 
 
-        
+
 
 
 
