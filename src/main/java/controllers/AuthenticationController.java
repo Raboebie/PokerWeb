@@ -202,7 +202,7 @@ return false;
         Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :NAME");
         q.setParameter("NAME" , pname);
         List<Players> list = (List<Players>) q.getResultList();
-        if(list.size() > 1)
+        if(list.isEmpty())
         {
             return null;
         }

@@ -109,17 +109,9 @@ $(document).ready( function(){
                                                   data: {"gameName": gameName , "Players" : JSON.stringify(inputPlayers) , "hands" : JSON.stringify(HANDS)},
                                                   dataType: "json",
                                                   success: function(response) {
-                                                  alert(response.content);
-                                                  if(response.content == "TRUE")
-                                                  {
-                                                    $("#gameName").css("color" , "green");
-                                                    $("#isGameAvailable").text("Name is available").css("color" , "green")
-                                                    }
-                                                    else
-                                                    {
-                                                    $("#gameName").css("color" , "red");
-                                                    $("#isGameAvailable").text("Name is not available").css("color" , "red")
-                                                    }
+                                                 // alert(response.content);
+
+
                                                    },
                                                   error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
                                                }

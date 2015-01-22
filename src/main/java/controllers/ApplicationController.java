@@ -100,7 +100,7 @@ public class ApplicationController {
 
         String[] playerNames = new String[5];
 
-        for(Integer k= 0 ;k < 5 ; k++)
+        for(Integer k= 0 ;k < jsonObject.size() ; k++)
         {
             playerNames[k] =  (String) jsonObject.get(k.toString());
         }
@@ -111,7 +111,7 @@ public class ApplicationController {
 
         String[] playerHands = new String[5];
 
-        for(Integer k= 0 ; k < 5; k++) {
+        for(Integer k= 0 ; k < playerNames.length; k++) {
             playerHands[k] =  (String) jsonObject.get(k.toString());
         }
 
@@ -136,6 +136,14 @@ public class ApplicationController {
                     playerGames.setGameName(gameName);
                     playerGames.setHand(playerHands[k]);
                     Players player = auth.getPlayer(playerNames[k]);
+
+                    if(player == null)
+                    {
+                        SimplePojo json = new SimplePojo();
+                        json.content = "FALSE";
+                        return Results.json().render(json);
+                    }
+
                     player.addHand(playerHands[k]);
                     player.addGame(game);
                     playerGames.setUsername(player.getName());
