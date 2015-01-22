@@ -216,23 +216,3 @@ function getRank(r)
     }
 }
 
-
-/*        if(eval.isFourOfAKindFunctional(hand))
-              return "Four of a kind!";
-          else if(eval.isFlushFunctional(hand))
-              return "Flush!";
-          else if(eval.isFullHouseFunctional(hand))
-              return "Full house!";
-          else if(eval.isThreeOfAKindFunctional(hand))
-              return "Three of a kind";
-          else if(eval.isTwoPairFunctional(hand))
-              return "Two Pair";
-          else if(eval.isStraightFlush(hand))
-              return "Straight flush!";
-          else if(eval.isOnePairFunctional(hand))
-              return "One Pair!";
-
-          else
-          {
-              return "High card.";
-          }*/
