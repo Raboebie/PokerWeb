@@ -4,6 +4,7 @@ var inputPlayers = new Object();
 var PLAYERS = 5;
 
 
+
 $(document).ready( function(){
         setDeck();
 
@@ -16,7 +17,7 @@ $(document).ready( function(){
         });
 
 
-  for(var j = 0; j< PLAYERS ; j++)
+  for(var j = 0; j< 5 ; j++)
   {
     $("#player" + j).text(inputPlayers[j]);
     var deckInfo = $("#deckInfo"+ j).text();
@@ -48,35 +49,27 @@ $(document).ready( function(){
    winner++;
 
            $("#startGame").on("click",function(){
+
+
+
+
                    inputPlayers[1] = $("#player2Name").val();
                    inputPlayers[2] = $("#player3Name").val();
                    inputPlayers[3] = $("#player4Name").val();
                    inputPlayers[4] = $("#player5Name").val();
+                     $("#gameSetup").css("display" , "none");
+                                         for(var k = 0 ; k < 5 ;k++)
+                                             if(inputPlayers[k].length == 0)
+                                                 PLAYERS--;
 
-                   $("#player" + 0).text(inputPlayers[0]);
-                   $("#player" + 1).text(inputPlayers[1]);
-                   $("#player" + 2).text(inputPlayers[2]);
-                   $("#player" + 3).text(inputPlayers[3]);
-                    $("#player" + 4).text(inputPlayers[4]);
-                    $("#deckInfo" +0).attr('style', '');
-                     $("#deckInfo" +1).attr('style', '');
-                      $("#deckInfo" +2).attr('style', '');
-                       $("#deckInfo" +3).attr('style', '');
-                        $("#deckInfo" +4).attr('style', '');
-                         $("#gameSetup").css("display" , "none");
+                    for(var x = 0 ; x < PLAYERS ; x++)
+                    {
+                         $("#player" + x).text(inputPlayers[x]);
+                         $("#deckInfo" +x).attr('style', '');
+                         $("#player" + x).attr('style', 'inline');
+                         $("#deckType" + x).attr('style', 'inline');
+                    }
 
-
-                           $("#player" + 0).attr('style', 'inline');
-                           $("#player" + 1).attr('style', 'inline');
-                           $("#player" + 2).attr('style', 'inline');
-                           $("#player" + 3).attr('style', 'inline');
-                           $("#player" + 4).attr('style', 'inline');
-
-                            $("#deckType" + 0).attr('style', 'inline');
-                            $("#deckType" + 1).attr('style', 'inline');
-                             $("#deckType" + 2).attr('style', 'inline');
-                            $("#deckType" + 3).attr('style', 'inline');
-                              $("#deckType" + 4).attr('style', 'inline');
 
             });
 
