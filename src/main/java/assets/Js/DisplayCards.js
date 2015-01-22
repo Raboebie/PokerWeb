@@ -18,7 +18,6 @@ $(document).ready( function(){
 
   for(var j = 0; j< PLAYERS ; j++)
   {
-
     $("#player" + j).text(inputPlayers[j]);
     var deckInfo = $("#deckInfo"+ j).text();
     $("#deckInfo"+ j).text("");
@@ -53,6 +52,12 @@ $(document).ready( function(){
                    inputPlayers[2] = $("#player3Name").val();
                    inputPlayers[3] = $("#player4Name").val();
                    inputPlayers[4] = $("#player5Name").val();
+
+                   $("#player" + 0).text(inputPlayers[0]);
+                   $("#player" + 1).text(inputPlayers[1]);
+                   $("#player" + 2).text(inputPlayers[2]);
+                   $("#player" + 3).text(inputPlayers[3]);
+                    $("#player" + 4).text(inputPlayers[4]);
                     $("#deckInfo" +0).attr('style', '');
                      $("#deckInfo" +1).attr('style', '');
                       $("#deckInfo" +2).attr('style', '');
