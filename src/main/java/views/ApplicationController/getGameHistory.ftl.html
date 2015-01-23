@@ -1,0 +1,16 @@
+<#import "../layout/defaultLayoutLogin.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+
+    <h1>Poker Web App</h1>
+
+    <body>
+    <div class = "container-fluid backgrounds">
+
+            <div class = "credentials" name = "mainHistoryDiv">
+                    <#noescape>${tableInfo}</#noescape>
+            </div>
+    </div>
+    </body>
+
+</@layout.myLayout>

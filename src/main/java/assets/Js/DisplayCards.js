@@ -108,8 +108,6 @@ $(document).ready( function(){
         );
 
 
-
-
         $.get("/getLoggedInPlayerName" , function(data) {
                 $("#player1Name").val(data.content);
                 inputPlayers[0] = data.content;

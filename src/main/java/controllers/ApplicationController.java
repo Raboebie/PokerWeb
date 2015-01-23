@@ -61,7 +61,7 @@ public class ApplicationController {
 
     Hand hand;
 
-    List<Hand> listHands = new LinkedList<Hand>();
+    List<Hand> listHands = new LinkedList<>();
     List<Players> currentPlayers =  new LinkedList<>();
 
     int count = 0;
@@ -72,6 +72,9 @@ public class ApplicationController {
     boolean restore = false;
 
     static int PLAYERS;
+
+
+
 
 
     //THIS IS A TEMPORARY FUNCTION
@@ -168,7 +171,7 @@ public class ApplicationController {
 
         if(auth.createGame(game))
         {
-                System.out.println("Made a game@!!");//For each user in the game add the gameName, playerName and hand to PlayerGames
+                //For each user in the game add the gameName, playerName and hand to PlayerGames
 
                 for(int k = 0 ; k < playerNames.length ; k++)
                 {
@@ -194,10 +197,10 @@ public class ApplicationController {
 
                     if(auth.createPlayerGames(playerGames))
                     {
-                        System.out.println("Great victory!!");
+                        System.out.println("Successfully created your game.");
                     }
                     else
-                        System.out.println("Lekker failure");
+                        System.out.println("An error occured while trying to create the game.");
 
                 }
         }
@@ -228,7 +231,20 @@ public class ApplicationController {
         SimplePojo jsonEntry = new SimplePojo();
 
         jsonEntry.content = "Not yet implemented.";
-        return Results.json().render(jsonEntry);
+
+        List<PlayerGames> playerGames = auth.getHistory();
+
+        for(int k = 0 ; k < playerGames.size() ; k++)
+        {
+            System.out.println(playerGames.get(k).getHand());
+        }
+
+        Result result =  Results.html();
+        result.render("tableInfo","</div>" +
+                "<a href = '/'>TEsting this linky</a>" +
+                "" +
+                "</div>");
+        return result;
     }
 
 
@@ -258,7 +274,7 @@ public class ApplicationController {
             session.put("username", username);
             session.put("password", password);
 
-               if(auth.loginDatabase(username,password))       {                 //if (auth.loginHash(username,password) ) {
+               if(auth.loginDatabase(username,password))       {
                 System.out.println("loginHash returned success");
                 loginError = false;         loggedIn = true;
                 pokerService.createDeck();
@@ -274,7 +290,7 @@ public class ApplicationController {
                 result.render("deck1", listHands.get(1).toString() + " #" + pokerService.evaluateDeck(listHands.get(1)));
                 result.render("deck2", listHands.get(2).toString() + " #" + pokerService.evaluateDeck(listHands.get(2)));
                 result.render("deck3", listHands.get(3).toString() + " #" + pokerService.evaluateDeck(listHands.get(3)));
-                result.render("deck4", listHands.get(4).toString() + " #" + pokerService.evaluateDeck(listHands.get(4))); //RENDER ALL 5 DECKS. ADJUST JQUERY AND JAVASCRIPT
+                result.render("deck4", listHands.get(4).toString() + " #" + pokerService.evaluateDeck(listHands.get(4)));
                 return result;
             }
         }

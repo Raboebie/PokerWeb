@@ -64,4 +64,10 @@ public class PlayerGames {
         this.hand = hand;
     }
 
+    public String getHand()
+    {
+        return hand;
+    }
+
+
 }

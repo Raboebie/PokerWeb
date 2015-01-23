@@ -237,4 +237,15 @@ return false;
             return false;
         }
     }
+
+    @UnitOfWork
+    public List<PlayerGames> getHistory()
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+
+        Query q = entityManager.createQuery("SELECT u FROM PlayerGames u ,Players x, Game y WHERE x.name = u.name GROUP BY u.GameName , u.hand ");
+        List<PlayerGames> list = (List<PlayerGames>) q.getResultList();
+
+        return list;
+    }
 }
