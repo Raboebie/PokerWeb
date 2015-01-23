@@ -204,10 +204,12 @@ return false;
         List<Players> list = (List<Players>) q.getResultList();
         if(list.isEmpty())
         {
+            System.out.println("LEKKER NULLK");
             return null;
         }
         else
         {
+            System.out.println("NOT NULL, found player" + pname);
             return list.get(0);
         }
 

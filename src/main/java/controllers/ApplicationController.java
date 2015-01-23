@@ -84,6 +84,47 @@ public class ApplicationController {
 
     }
 
+    public Result checkPlayer(Context context)
+    {
+        SimplePojo json = new SimplePojo();
+
+        Players player = auth.getPlayer(context.getParameter("player2"));
+
+            if(player != null)
+            {
+
+                json.content += context.getParameter("player2") + ",";
+            }
+
+        player = auth.getPlayer(context.getParameter("player3"));
+
+        if(player != null)
+        {
+
+            json.content += context.getParameter("player3") + ",";
+        }
+
+        player = auth.getPlayer(context.getParameter("player4"));
+
+        if(player != null)
+        {
+
+
+            json.content += context.getParameter("player4") + ",";
+        }
+        player = auth.getPlayer(context.getParameter("player5"));
+
+        if(player != null)
+        {
+
+            json.content += context.getParameter("player5");
+
+        }
+
+        return Results.json().render(json);
+
+    }
+
     public Result createGame(Context context)
     {
         SimplePojo simplePojo = new SimplePojo();
