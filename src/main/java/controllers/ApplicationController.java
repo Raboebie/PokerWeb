@@ -43,6 +43,7 @@ public class ApplicationController {
     Hand hand;
 
     List<Hand> listHands = new LinkedList<>();
+    List<String> lobbies = new LinkedList<>();
     //List<User.Users> currentPlayers =  new LinkedList<>();
 
     int count = 0;
@@ -58,7 +59,12 @@ public class ApplicationController {
 
 
 
-    //THIS IS A TEMPORARY FUNCTION
+   public Result hostGame(Context context)
+   {
+
+        return Results.html();
+   }
+
     public Result setplayers(Context context) {
 
         SimplePojo simplePojo = new SimplePojo();
@@ -112,7 +118,7 @@ public class ApplicationController {
     public Result createGame(Context context)
     {
         SimplePojo simplePojo = new SimplePojo();
-        simplePojo.content = "sadads";   //Get List of players from database or from ajax
+         //Get List of players from database or from ajax
 
         String gameName = context.getParameter("gameName");
         String players = context.getParameter("Players");
@@ -149,6 +155,7 @@ public class ApplicationController {
 
         game.setGameDate(currentTimestamp);
         game.setGameName(gameName);
+        game.setHost(context.getParameter("username"));
 
         if(auth.createGame(game))
         {

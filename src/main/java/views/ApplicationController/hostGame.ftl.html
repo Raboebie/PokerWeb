@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<#import "../layout/defaultLayoutLobbyHost.ftl.html" as layout>
+    <@layout.myLayout "Home page">
 
-</body>
-</html>
+
+    <h1>Play multiplayer</h1>
+
+    <body>
+    <div class = "container-fluid backgrounds">
+        <button id = 'hostGame' class = 'btn btn-default'>Host Game</button>
+    </div>
+
+    <div id = 'displayLobby' class = 'container-fluid'>No games currently</div>
+
+    </body>
+
+</@layout.myLayout>

@@ -1,7 +1,5 @@
 $(document).ready( function() {
 
-
-
         $.get("/getLobbyGames" , function(data){
              $("#displayLobby").html(data.content);
         });

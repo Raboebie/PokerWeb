@@ -194,9 +194,9 @@ return false;
     {
         EntityManager entityManager = entityManagerProvider.get();
         game.setActive(true);
-        try {
-            game.setHost(Inet4Address.getLocalHost().getHostAddress().toString());
-        }catch(UnknownHostException e){}
+        /*try {
+            game.setHost();
+        }catch(UnknownHostException e){}*/
         entityManager.persist((Game) game);
         return true;
     }
@@ -266,7 +266,6 @@ return false;
         Query q = entityManager.createQuery("SELECT g FROM Game g WHERE g.active = 'TRUE'");
         List results = q.getResultList();
         List<Game> list = (List<Game>) q.getResultList();
-
         return list;
     }
 }
