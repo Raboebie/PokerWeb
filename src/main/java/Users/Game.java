@@ -27,7 +27,7 @@ public class Game {
     @Temporal(TemporalType.TIMESTAMP)
     private Date gameDate;
 
-    private boolean active = true;
+    private boolean active = false;
 
     private String host;
 
