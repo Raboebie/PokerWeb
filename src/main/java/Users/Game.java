@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Andre on 2015-01-20.
- */
+
 
 @Entity
 public class Game {

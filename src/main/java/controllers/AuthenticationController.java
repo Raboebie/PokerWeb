@@ -13,6 +13,8 @@ import ninja.jpa.UnitOfWork;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
@@ -191,6 +193,10 @@ return false;
     public boolean createGame(Game game)
     {
         EntityManager entityManager = entityManagerProvider.get();
+        game.setActive(true);
+        try {
+            game.setHost(Inet4Address.getLocalHost().getHostAddress().toString());
+        }catch(UnknownHostException e){}
         entityManager.persist((Game) game);
         return true;
     }
@@ -249,6 +255,17 @@ return false;
 
 
         List<UserGame> list = (List<UserGame>) q.getResultList();
+
+        return list;
+    }
+
+    @UnitOfWork
+    public List<Game> getCurrentActiveGames()
+    {
+        EntityManager entityManager = entityManagerProvider.get();
+        Query q = entityManager.createQuery("SELECT g FROM Game g WHERE g.active = 'TRUE'");
+        List results = q.getResultList();
+        List<Game> list = (List<Game>) q.getResultList();
 
         return list;
     }

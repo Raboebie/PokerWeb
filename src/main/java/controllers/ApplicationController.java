@@ -222,6 +222,26 @@ public class ApplicationController {
         return Results.json().render(jsonEntry);
     }
 
+
+    public Result createLobby(Context context)
+    {
+        return  Results.html();
+    }
+
+    public Result getLobbyGames(Context context)
+    {
+        SimplePojo json = new SimplePojo();
+        json.content = "";
+        List<Game> games = auth.getCurrentActiveGames();
+
+        for(int k = 0 ; k < games.size() ; k++)
+        {
+            json.content += "<li>"+games.get(k).getHost()+"</li> <button class = 'btn btn-default' onclick = 'joinGame("+ games.get(0).getHost()+")'>Join Game</button>";
+        }
+
+        return Results.json().render(json);
+    }
+
     public Result getGameHistory(Context context)
     {
 

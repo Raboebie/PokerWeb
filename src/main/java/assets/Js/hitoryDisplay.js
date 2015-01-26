@@ -8,7 +8,6 @@ $( document ).ready(function() {
     var deck;
     for(var j = 0; j < count ; j++)
       {
-      alert(cardList);
 
 
         var deckInfo = $("#historyDeck"+ j).text();

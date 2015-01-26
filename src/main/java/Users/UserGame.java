@@ -6,9 +6,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Andre on 2015-01-20.
- */
 
 @Entity
 @IdClass(UserGameID.class)
