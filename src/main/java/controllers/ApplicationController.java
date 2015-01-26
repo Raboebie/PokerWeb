@@ -19,11 +19,9 @@ package controllers;
 
 import Services.PokerService;
 import Users.Game;
-import Users.PlayerGames;
-import Users.Players;
+import Users.UserGame;
+import Users.User;
 import com.google.inject.Inject;
-import jdk.nashorn.internal.parser.JSONParser;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 import ninja.Result;
 import ninja.Results;
 
@@ -32,16 +30,13 @@ import com.google.inject.Singleton;
 import Cards.Hand;
 import ninja.Context;
 import ninja.session.Session;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 
 @Singleton
@@ -62,7 +57,7 @@ public class ApplicationController {
     Hand hand;
 
     List<Hand> listHands = new LinkedList<>();
-    List<Players> currentPlayers =  new LinkedList<>();
+    //List<User.Users> currentPlayers =  new LinkedList<>();
 
     int count = 0;
     boolean regError = false;
@@ -91,7 +86,7 @@ public class ApplicationController {
     {
         SimplePojo json = new SimplePojo();
 
-        Players player = auth.getPlayer(context.getParameter("player2"));
+        Users.User player = auth.getPlayer(context.getParameter("player2"));
 
             if(player != null)
             {
@@ -175,11 +170,11 @@ public class ApplicationController {
 
                 for(int k = 0 ; k < playerNames.length ; k++)
                 {
-                    PlayerGames playerGames = new PlayerGames();
-                    playerGames.setUsername(playerNames[k]);
-                    playerGames.setGameName(gameName);
-                    playerGames.setHand(playerHands[k]);
-                    Players player = auth.getPlayer(playerNames[k]);
+                    UserGame userGame = new UserGame();
+                    userGame.setUsername(playerNames[k]);
+                    userGame.setGameName(gameName);
+                    userGame.setHand(playerHands[k]);
+                    Users.User player = auth.getPlayer(playerNames[k]);
 
                     if(player == null)
                     {
@@ -188,14 +183,15 @@ public class ApplicationController {
                         return Results.json().render(json);
                     }
 
-                    player.addHand(playerHands[k]);
-                    player.addGame(game);
-                    playerGames.setUsername(player.getName());
-                    playerGames.setHand(player.getHand());
+                   /* player.addHand(playerHands[k]);
+//                    player.addGame(game);
+                    userGame.setUsername(player.getName());
+                    userGame.setHand(player.getHand());
                     game.addPlayer(player);
-                    playerGames.setGame(game);
+                   // playerGames.setGame(game);*/
 
-                    if(auth.createPlayerGames(playerGames))
+
+                    if(auth.createPlayerGames(userGame))
                     {
                         System.out.println("Successfully created your game.");
                     }
@@ -215,7 +211,7 @@ public class ApplicationController {
     public Result setGameName(Context context)
     {
         String gameName = context.getParameter("page");
-        System.out.println(new Timestamp(8));
+        //System.out.println(new Timestamp(8));
         Game game = new Game(gameName,new Timestamp(8));
         boolean test = auth.checkGame(gameName, new Timestamp(8));
         SimplePojo jsonEntry = new SimplePojo();
@@ -228,22 +224,43 @@ public class ApplicationController {
 
     public Result getGameHistory(Context context)
     {
-        SimplePojo jsonEntry = new SimplePojo();
 
-        jsonEntry.content = "Not yet implemented.";
-
-        List<PlayerGames> playerGames = auth.getHistory();
+        String html = "<html><title>Game history</title><head></head><body>";               //Remember to close body
+        List<UserGame> playerGames = auth.getHistory();
+        String currentUsername = "";
+        String tempName = "";
+        if(playerGames.isEmpty()) {
+            // tempName = playerGames.get(0).getName();
+            Result result = Results.html();
+            result.render("tableInfo" , "No games to display.");
+            return result;
+        }
+        //return Results.html();
+        html += "<h1 class = ''>" + playerGames.get(0).getUsername() + "</h1><table class = 'table table-striped table-bordered table-hover'>";
+        html  += "<th>GameName</th>" + "<th>Hand</th>" + "<th>Player Name</th>";
 
         for(int k = 0 ; k < playerGames.size() ; k++)
         {
             System.out.println(playerGames.get(k).getHand());
+            currentUsername = playerGames.get(k).getUsername();
+            if(k % 3 == 0 && k != playerGames.size()-1)
+                html += "<th>GameName</th>" + "<th>Hand</th>" + "<th>Player Name</th>";
+            html+=
+                    "<tr>" +
+                        "<td>" +playerGames.get(k).getGameName()
+                        +"</td>" +
+                        "<td id = 'historyDeck"+k+"'>" + playerGames.get(k).getHand()
+                        +"</td> " +
+                        "<td>" + playerGames.get(k).getUsername()
+                        +"</td>" +
+                    "</tr>" ;
+
+            tempName = currentUsername;
         }
+        html = html + "</table></body></html>";
 
         Result result =  Results.html();
-        result.render("tableInfo","</div>" +
-                "<a href = '/'>TEsting this linky</a>" +
-                "" +
-                "</div>");
+        result.render("tableInfo",html);
         return result;
     }
 

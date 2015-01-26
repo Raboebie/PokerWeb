@@ -3,8 +3,8 @@ package controllers;
 import Passwords.Passwords;
 import Repository.UserRepository;
 import Users.Game;
-import Users.PlayerGames;
-import Users.Players;
+import Users.UserGame;
+import Users.User;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -18,6 +18,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import Users.User;
 
 
 /**
@@ -119,9 +120,9 @@ return false;
 
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :USERNAME");
+        Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :USERNAME");
         q.setParameter("USERNAME" , USERNAME);
-        List<Players> list = (List<Players>) q.getResultList();
+        List<User> list = (List<User>) q.getResultList();
 
         if(list.isEmpty())
             return false;
@@ -150,9 +151,9 @@ return false;
     public boolean registerDatabase(String USERNAME, String PASSWORD) {
     EntityManager entityManager = entityManagerProvider.get();
 
-    Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :USERNAME");
+    Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :USERNAME");
     q.setParameter("USERNAME", USERNAME);
-    List<Players> list = (List<Players>) q.getResultList();
+    List<Users.User> list = (List<Users.User>) q.getResultList();
 
 
             if (list.isEmpty()) {
@@ -160,11 +161,11 @@ return false;
                     try {
                         Passwords p = new Passwords();
                         String hashedPassword = p.createHash(PASSWORD);
-                        Players users = new Players(USERNAME, hashedPassword);
-                        users.setHand("Testing hand");
+                        Users.User users = new Users.User(USERNAME, hashedPassword);
+
                         EntityManager entity = entityManagerProvider.get();
                         //entity.persist((Game) game);
-                        entity.persist((Players) users);
+                        entity.persist((Users.User) users);
                         return true;
                     } catch (NoSuchAlgorithmException e) {
                     }
@@ -179,10 +180,10 @@ return false;
 
 
     @Transactional
-    public boolean createPlayerGames(PlayerGames playerGames)
+    public boolean createPlayerGames(UserGame userGame)
     {
         EntityManager entityManager = entityManagerProvider.get();
-        entityManager.persist((PlayerGames) playerGames);
+        entityManager.persist((UserGame) userGame);
         return true;
     }
 
@@ -195,13 +196,13 @@ return false;
     }
 
     @UnitOfWork
-    public Players getPlayer(String pname)
+    public Users.User getPlayer(String pname)
     {
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT u FROM Players u WHERE u.name = :NAME");
+        Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :NAME");
         q.setParameter("NAME" , pname);
-        List<Players> list = (List<Players>) q.getResultList();
+        List<Users.User> list = (List<Users.User>) q.getResultList();
         if(list.isEmpty())
         {
             System.out.println("LEKKER NULLK");
@@ -221,7 +222,7 @@ return false;
     {
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT u FROM Game u WHERE u.GameName = :GAMENAME");
+        Query q = entityManager.createQuery("SELECT u FROM Game u WHERE u.gameName = :GAMENAME");
         q.setParameter("GAMENAME" , name);
         List<Game> list = (List<Game>) q.getResultList();
 
@@ -239,12 +240,15 @@ return false;
     }
 
     @UnitOfWork
-    public List<PlayerGames> getHistory()
+    public List<UserGame> getHistory()
     {
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT u FROM PlayerGames u ,Players x, Game y WHERE x.name = u.name GROUP BY u.GameName , u.hand ");
-        List<PlayerGames> list = (List<PlayerGames>) q.getResultList();
+        Query q = entityManager.createQuery("SELECT g FROM UserGame g");
+        List results = q.getResultList();
+
+
+        List<UserGame> list = (List<UserGame>) q.getResultList();
 
         return list;
     }

@@ -1,80 +1,81 @@
 package Users;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+//import com.google.inject.persist.jpa.JpaPersistService;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.security.Timestamp;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * Created by dihan on 15/01/21.
+ * Created by Andre on 2015-01-20.
  */
+
 @Entity
 public class Game {
-
     @Id
-    @Size (max = 20)
-    private String GameName;
+    @Size (max = 100)
+    private String gameName;
 
     @OneToMany(mappedBy = "game")
-    private List<PlayerGames> players = new ArrayList<>();
+    private List<UserGame> users = new ArrayList<>();
 
-    private Timestamp GameDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date gameDate;
 
+    private boolean active = true;
 
-    /*Timestamp stamp = new Timestamp(System.currentTimeMillis());
-    Date date = new Date(stamp.getTime());
-    System.out.println(date); */
+    private String host;
 
-    public void addPlayer(Players player)
-    {
-        PlayerGames playerGames = new PlayerGames();
-        playerGames.setGameName(this.getGameName());
-        playerGames.setUsername(player.getName());
-        playerGames.setHand(player.getHand());
-        playerGames.setGame(this);
-        playerGames.setPlayer(player);
-        this.players.add(playerGames);
+    public void setActive(boolean a){
+        active = a;
     }
 
-    public Game()
-    {
-
+    public boolean getActive(){
+        return this.active;
     }
 
+    public Game() {}
 
-
-
-    public Game(String gameName, Timestamp gameDate)
+    public Game(String s , Date d)
     {
-        GameName = gameName;
-        GameDate = gameDate;
+        gameName = s;
+        gameDate = d;
     }
 
-    public String  getGameName()
-    {
-            return GameName;
+    public void addUser(User user){
+        UserGame userGame = new UserGame();
+        userGame.setGameName(this.gameName);
+        userGame.setUsername(user.getUsername());
+        userGame.setGame(this);
+        userGame.setUser(user);
+        this.users.add(userGame);
     }
 
-    public Timestamp getDate()
+    public void setGameName(String _name)
     {
-        return GameDate;
+        this.gameName = _name;
     }
 
-    public void setGameName(String name)
+    public String getGameName()
     {
-        GameName = name;
+        return gameName;
     }
 
-    public void setGameDate(Timestamp stamp)
-    {
-        GameDate = stamp;
+    public void setGameDate(Date t) { gameDate = t; }
+
+    public Date getGameDate(){
+        return this.gameDate;
     }
 
+    public void setHost(String _host) { this.host = _host; }
 
-
+    public String getHost() { return host; }
 
 }

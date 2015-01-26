@@ -1,21 +1,23 @@
-create table Players(
-name varchar(12) not null,
+create table User (
+username varchar(12) not null,
 password varchar(255) not null,
-hand varchar(255) not null,
-PRIMARY KEY (name)
+--salt varchar(255) not null,
+primary key (username)
 );
 
 create table Game(
-GameName varchar(20) not null,
-GameDate TIMESTAMP(8) not null,
-PRIMARY KEY (GameDate)
+gameName varchar(100) not null,
+gameDate timestamp,
+active bit,
+host varchar(100),
+primary key (gameName)
 );
 
-create table PlayerGames(
-    name varchar(100) not null,
-    GameName varchar(100) not null,
-    hand varchar(100) not null,
-    constraint username_fk foreign key (name) references Players(name),
-    constraint gameName_fk foreign key (GameName) references Game(gameName),
-    primary key(name, gameName)
+create table UserGame(
+username varchar(12) not null,
+gameName varchar(100) not null,
+hand varchar(100) not null,
+constraint username_fk foreign key (username) references User(username),
+constraint gameName_fk foreign key (gameName) references Game(gameName),
+primary key(username, gameName)
 );
