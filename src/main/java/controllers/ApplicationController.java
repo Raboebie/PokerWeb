@@ -357,7 +357,7 @@ public class ApplicationController {
             Result result = Results.html();
         session = context.getSession();
 
-        if(restore)
+        /*if(restore)
         {
             result = Results.html();
             result.render("name", listHands.get(0).toString() + " #" + pokerService.evaluateDeck(listHands.get(0)));
@@ -367,7 +367,7 @@ public class ApplicationController {
             result.render("deck4", listHands.get(4).toString() + " #" + pokerService.evaluateDeck(listHands.get(4))); //RESTORE FROM LIST RATHER THAN SINGLE HAND
             restore = false;
             return result.html();
-        }
+        }*/
 
         if(!loginError) {
             session = context.getSession();

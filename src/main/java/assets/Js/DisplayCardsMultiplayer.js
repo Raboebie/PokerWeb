@@ -10,8 +10,9 @@ setDeck();
                 playerNames = players.split(",");
                 var playerCount = playerNames.length;
 
-                for(var j = 0 ; j < playerCount ; j++)
+                for( var j = 0 ; j < playerCount ; j++)
                 {
+                 alert(j);
                     $.get("/getHand",function(response){
 
                             var hand = response.content;
@@ -24,10 +25,13 @@ setDeck();
                             {
                                 //alert(cardList[k]);
                                 $("#cardDisplay").append("<img class = 'img-rounded' onload = 'resizeImg(this,200,100);' id = 'card"+k+"' src = '/assets/Images/"+map[ cardList[k] ]+ "'/>");
+
                             }
-                     $("#cardDisplay").append("</br>");
-                     $("#cardDisplay").append('<label class = "form-control">"'+playerNames[j]+'"</label>');
+                                                $("#cardDisplay").append("</br>");
+
+                                               // $("#cardDisplay").append("<label class = 'form-control'>"+playerNames[j]+"</label>");
                     });
+
 
                 }
 
