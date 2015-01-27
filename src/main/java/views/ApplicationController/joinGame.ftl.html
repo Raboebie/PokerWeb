@@ -1,4 +1,4 @@
-<#import "../layout/lobbyViewLayout.ftl.html" as layout>
+<#import "../layout/gamePlayViewLayout.ftl.html" as layout>
     <@layout.myLayout "Home page">
     <h1>Waiting for more players to connect.</h1>
 
@@ -6,9 +6,14 @@
     <div class = "container-fluid backgrounds">
     </div>
 
-    <div id = 'displayLobby' class = 'container-fluid'><h2><#noescape>${users}</#noescape></h2></div>
+    <div id = 'displayLobby' class = 'container-fluid'><#noescape>${users}</#noescape>
+
+    </div>
 
     <button class = 'btn btn-default' id = 'dealHand'>Deal Hand</button>
+
+    <div class = "container-fluid" id = 'cardDisplay'>
+        </div>
 
     </body>
 

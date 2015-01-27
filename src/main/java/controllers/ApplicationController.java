@@ -58,6 +58,16 @@ public class ApplicationController {
 
 
 
+    public Result getHand(Context context)
+    {
+        pokerService.createDeck();
+        String hand = pokerService.dealHand().toString();
+        SimplePojo json = new SimplePojo();
+        json.content = hand;
+        System.out.println(hand);
+        return Results.json().render(json);
+    }
+
     public Result joinGame(@PathParam("gameName") String gameName, Context context)
     {
         Result result = Results.html();
@@ -66,7 +76,7 @@ public class ApplicationController {
         String HostGameButton = "<button class = 'btn btn-default' onclick = \"alert('You are the host')\">You are the host.</button>";
         boolean flag= false;
 
-        if(list == null)
+        if(list.isEmpty())
         {
             result.redirect("/");
             return result;
@@ -121,17 +131,15 @@ public class ApplicationController {
         }
     }
 
-
-
    public Result hostGame(Context context)
    {
         SimplePojo json = new SimplePojo();
-       //System.out.print(context.getParameter("hostedGame"));
+
        String gameName = context.getParameter("hostedGame");
        json.content = gameName;
        List<String> usernames = new LinkedList<>();
        usernames.add(context.getSession().get("username"));
-       System.out.println(context.getSession().get("username"));
+
        currentPlayersAndGames.put(gameName, usernames);
        System.out.println("Waiting for players...");
        return Results.json().render(json);
@@ -140,7 +148,7 @@ public class ApplicationController {
     public Result setplayers(Context context) {
 
         SimplePojo simplePojo = new SimplePojo();
-        simplePojo.content = "Dihan,Hardu,Chris,Arno,Andre";   //Get List of players from database or from ajax
+        simplePojo.content = "Dihan,Hardu,Chris,Arno,Andre";   //Get List of players from database via from ajax
         System.out.println("Setting players");
         return Results.json().render(simplePojo);
 
@@ -248,12 +256,6 @@ public class ApplicationController {
                         return Results.json().render(json);
                     }
 
-                   /* player.addHand(playerHands[k]);
-//                    player.addGame(game);
-                    userGame.setUsername(player.getName());
-                    userGame.setHand(player.getHand());
-                    game.addPlayer(player);
-                   // playerGames.setGame(game);*/
 
 
                     if(auth.createPlayerGames(userGame))
