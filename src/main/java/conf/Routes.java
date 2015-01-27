@@ -49,7 +49,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/hostGame").with(ApplicationController.class , "hostGame");
         //router.GET().route("/joinGame").with(ApplicationController.class , "joinGame");
         router.GET().route("/lobbyView").with(ApplicationController.class , "lobbyView");
-        router.GET().route("/joinGame/{gameNumber}").with(ApplicationController.class , "joinGame");
+        router.GET().route("/joinGame/{gameName}").with(ApplicationController.class , "joinGame");
         
  
         ///////////////////////////////////////////////////////////////////////

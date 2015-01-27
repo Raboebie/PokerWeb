@@ -22,9 +22,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @Singleton
@@ -45,7 +43,7 @@ public class ApplicationController {
     Hand hand;
 
     List<Hand> listHands = new LinkedList<>();
-    List<String> currentLobbies = new LinkedList<>();
+    Map<String, List<String>> currentPlayersAndGames = new HashMap<>();
     //List<User.Users> currentPlayers =  new LinkedList<>();
 
     int count = 0;
@@ -60,22 +58,59 @@ public class ApplicationController {
 
 
 
-    public Result joinGame(@PathParam("gameNumber") String gameNumber)
+    public Result joinGame(@PathParam("gameName") String gameName, Context context)
     {
         Result result = Results.html();
-        result.render("users", "Players will display here.");
+        List<String> list = currentPlayersAndGames.get(gameName);
+        String username = context.getSession().get("username");
+        String HostGameButton = "<button class = 'btn btn-default' onclick = \"alert('You are the host')\">You are the host.</button>";
+        boolean flag= false;
+
+        if(list == null)
+        {
+            result.redirect("/");
+            return result;
+        }
+
+
+        if(list.contains(username))
+        {
+            result.render("users", list.toString());
+            return result;
+        }
+        System.out.println(username + " " +list.get(0) + " asdasdasdasdasd");
+        if(list.get(0).equals(username))
+        {
+            flag = true;
+        }
+
+        list.add(context.getSession().get("username"));
+        currentPlayersAndGames.put(gameName , list);
+        if(flag)
+            result.render("users", list.toString() + " " + HostGameButton);
+        else
+            result.render("users", list.toString());
         return result;
     }
+
     public Result lobbyView(Context context)
     {
         Result result = Results.html();
         String lobbies = "";
-        for(int k = 0 ; k < currentLobbies.size() ; k++)
+        boolean flag =false;
+
+        Iterator entries = currentPlayersAndGames.entrySet().iterator();
+        while( entries.hasNext())
         {
-            lobbies += "<li><button onclick = 'joinGame("+k+")'>Join Game "+currentLobbies.get(k)+"</button></li>";
+            Map.Entry newEntry = (Map.Entry) entries.next();
+            String gameName = newEntry.getKey().toString();
+            List<String> usernames = (List<String>) newEntry.getValue();
+            lobbies += "<li><button class = 'btn btn-default' onclick = \"joinGame('"+gameName+"')\">Join Game hosted by "+usernames.get(0)+"</button></li>";
         }
 
-        if(currentLobbies.isEmpty())
+
+
+        if(currentPlayersAndGames.isEmpty())
         {
             result.render("lobbies" , "No active lobbies.");
             return result.html();
@@ -85,11 +120,8 @@ public class ApplicationController {
             return result;
         }
     }
-    public Result joinGame(Context context)
-    {
-        Result result = Results.html();
-        return result.html();
-    }
+
+
 
    public Result hostGame(Context context)
    {
@@ -97,9 +129,11 @@ public class ApplicationController {
        //System.out.print(context.getParameter("hostedGame"));
        String gameName = context.getParameter("hostedGame");
        json.content = gameName;
-       currentLobbies.add(gameName);
+       List<String> usernames = new LinkedList<>();
+       usernames.add(context.getSession().get("username"));
+       System.out.println(context.getSession().get("username"));
+       currentPlayersAndGames.put(gameName, usernames);
        System.out.println("Waiting for players...");
-       //System.out.println(json.content);
        return Results.json().render(json);
    }
 

@@ -11,14 +11,12 @@ $(document).ready( function(){
        $("#hostGame").on("click", function() {
 
 
-            alert( "Hosting game");
-
             var gameName = $("#gameName").val();
             var json = {hostedGame : gameName};
             //var obj = JSON.parse(json);
 
             $.post("/hostGame" , json , function(data){
-                    alert(data.content);
+
             });
 
        });
