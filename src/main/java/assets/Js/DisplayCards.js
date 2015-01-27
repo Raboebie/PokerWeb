@@ -7,6 +7,23 @@ var PLAYERS = 5;
 
 
 $(document).ready( function(){
+
+       $("#hostGame").on("click", function() {
+
+
+            alert( "Hosting game");
+
+            var gameName = $("#gameName").val();
+            var json = {hostedGame : gameName};
+            //var obj = JSON.parse(json);
+
+            $.post("/hostGame" , json , function(data){
+                    alert(data.content);
+            });
+
+       });
+
+
         setDeck();
 
 
@@ -30,75 +47,6 @@ $(document).ready( function(){
                         $("#gameName").css("color" , "red");
                         $("#isGameAvailable").text("Name is not available").css("color" , "red")
                         }
-                       },
-                      error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
-                   }
-
-                );
-          }
-        );
-
-
-
-        $("input[type=text]").not("#gameName, #player1Name").change(    //FIX THIS
-          function(){
-
-                $.ajax(
-                   {
-                      type: "POST",
-                      url: "/checkPlayer",
-                      data: {"player2": $("#player2Name").val() , "player3": $("#player3Name").val(), "player4": $("#player4Name").val() , "player5": $("#player5Name").val() },
-                      dataType: "json",
-                      success: function(response) {
-
-                          $("#player2Name").css("color" , "red");
-                            $("#player3Name").css("color" , "red");
-                            $("#player4Name").css("color" , "red");
-                           $("#player5Name").css("color" , "red");
-
-
-                                     var player2 = ("#player2Name").val;
-                                     var player3 = ("#player3Name").val;
-                                     var player4 = ("#player4Name").val;
-                                     var player5 = ("#player5Name").val;
-
-                      if(response.content.search(player2) != -1)
-                      {
-                        $("#player2Name").css("color" , "green");
-                       // $("#isGameAvailable").text("Name is available").css("color" , "green")
-                        }
-
-
-                       // $("#isGameAvailable").text("Name is not available").css("color" , "red")
-
-
-                         if(response.content.search(player3) != -1)
-                         {
-                           $("#player3Name").css("color" , "green");
-                          // $("#isGameAvailable").text("Name is available").css("color" , "green")
-                           }
-
-
-
-                          // $("#isGameAvailable").text("Name is not available").css("color" , "red")
-
-
-                       if(response.content.search(player4) != -1)
-                        {
-                          $("#player4Name").css("color" , "green");
-                         // $("#isGameAvailable").text("Name is available").css("color" , "green")
-                          }
-
-
-
-
-                        if(response.content.search(player5) != -1)
-                         {
-                           $("#player5Name").css("color" , "green");
-                          // $("#isGameAvailable").text("Name is available").css("color" , "green")
-                           }
-
-
                        },
                       error: function(xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
                    }

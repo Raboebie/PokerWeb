@@ -1,0 +1,16 @@
+<#import "../layout/lobbyViewLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+
+    <h1>Current Lobbies:</h1>
+
+    <body>
+    <div class = "container-fluid backgrounds">
+        <button id = 'hostGame' class = 'btn btn-default'>Host Game</button>
+    </div>
+
+    <div id = 'displayLobby' class = 'container-fluid'><#noescape>${lobbies}</#noescape></div>
+
+    </body>
+
+</@layout.myLayout>

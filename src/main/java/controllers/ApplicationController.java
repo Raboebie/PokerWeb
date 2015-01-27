@@ -15,6 +15,8 @@ import com.google.inject.Singleton;
 
 import Cards.Hand;
 import ninja.Context;
+import ninja.params.Param;
+import ninja.params.PathParam;
 import ninja.session.Session;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -43,7 +45,7 @@ public class ApplicationController {
     Hand hand;
 
     List<Hand> listHands = new LinkedList<>();
-    List<String> lobbies = new LinkedList<>();
+    List<String> currentLobbies = new LinkedList<>();
     //List<User.Users> currentPlayers =  new LinkedList<>();
 
     int count = 0;
@@ -58,11 +60,47 @@ public class ApplicationController {
 
 
 
+    public Result joinGame(@PathParam("gameNumber") String gameNumber)
+    {
+        Result result = Results.html();
+        result.render("users", "Players will display here.");
+        return result;
+    }
+    public Result lobbyView(Context context)
+    {
+        Result result = Results.html();
+        String lobbies = "";
+        for(int k = 0 ; k < currentLobbies.size() ; k++)
+        {
+            lobbies += "<li><button onclick = 'joinGame("+k+")'>Join Game "+currentLobbies.get(k)+"</button></li>";
+        }
+
+        if(currentLobbies.isEmpty())
+        {
+            result.render("lobbies" , "No active lobbies.");
+            return result.html();
+        }
+        else {
+            result.render("lobbies", lobbies);
+            return result;
+        }
+    }
+    public Result joinGame(Context context)
+    {
+        Result result = Results.html();
+        return result.html();
+    }
 
    public Result hostGame(Context context)
    {
-
-        return Results.html();
+        SimplePojo json = new SimplePojo();
+       //System.out.print(context.getParameter("hostedGame"));
+       String gameName = context.getParameter("hostedGame");
+       json.content = gameName;
+       currentLobbies.add(gameName);
+       System.out.println("Waiting for players...");
+       //System.out.println(json.content);
+       return Results.json().render(json);
    }
 
     public Result setplayers(Context context) {
